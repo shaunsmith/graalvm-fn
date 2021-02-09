@@ -1,11 +1,11 @@
 
 #  Fn + GraalVM Together
 
-> As you make your way through this tutorial, look out for this icon.
-![user input](images/userinput.png) Whenever you see it, it's time for you to
-perform an action.
+> As you make your way through this tutorial, look out for this icon. ![user
+input](images/userinput.png) Whenever you see it, it's time for you to perform
+an action.
 
-This lab will focus on a specific GraalVM capability:  Native Image
+This tutorial will focus on a specific GraalVM capability:  Native Image
 ahead-of-time (AOT) compilation for Java functions.
 
 First, create an app as follows:
@@ -70,16 +70,21 @@ Step 1/22 : FROM fnproject/fn-java-fdk-build:latest as build
 ...
 ```
 
-The resulting function is a self-contained executable that
-does not require a Java virtual machine to run.  It includes your function code, dependent libraries, and JDK classes compiled into
-native machine code linked with all the necessary platform libraries and a thin runtime layer called GraalVM Substrate that
-provides application services including garbage collection and memory management.  The resulting executable is quite small as it
-only contains the code you need to run your function.  All unused classes, methods, and even fields are removed at compile time.  An added feature of this approach is that the attack surface area of an executable is much smaller than a corresponding Java app running on a JVM.
+The resulting function is a self-contained executable that does not require a
+Java virtual machine to run.  It includes your function code, dependent
+libraries, and JDK classes compiled into native machine code linked with all the
+necessary platform libraries and a thin runtime layer called GraalVM Substrate
+that provides application services including garbage collection and memory
+management.  The resulting executable is quite small as it only contains the
+code you need to run your function.  All unused classes, methods, and even
+fields are removed at compile time.  An added feature of this approach is that
+the attack surface area of an executable is much smaller than a corresponding
+Java app running on a JVM.
 
 ![native-build](images/native-build.png)
 
-Once generated, the native function executable is added to a lightweight base image
-(busybox:glibc) with some related dependencies. This will constitute the
+Once generated, the native function executable is added to a lightweight base
+image (busybox:glibc) with some related dependencies. This will constitute the
 function Docker image that the Fn infrastructure will use when the function is
 invoked.
 
@@ -117,7 +122,8 @@ fndemouser/graalvmfn            0.0.2               d5742bc560f2        22 minut
 ```
 
 As you can see, the function image that includes everything required to run,
-including the operating system and the function native executable, is only around 21 MB!
+including the operating system and the function native executable, is only
+around 21 MB!
 
 Finally, let's invoke the deployed function and time how long it takes:
 
@@ -184,13 +190,14 @@ user	0m0.031s
 sys	0m0.016s
 ```
 
-We can see that the execution time of a GraalVM Native Image generated executable function is much
-faster in comparison. These numbers will vary depending on the machine you run
-the tests on but this basic benchmark shows that the cold startup of the GraalVM
-native-image function is significantly faster. In this particular example, the
-cold startup time of the GraalVM native-image function (770ms) is over twice as
-fast as the cold startup time (1998ms) of the same Java function that uses a
-regular JVM (HotSpot in this case).
+We can see that the execution time of a GraalVM Native Image generated
+executable function is much faster in comparison. These numbers will vary
+depending on the machine you run the tests on but this basic benchmark shows
+that the cold startup of the GraalVM native-image function is significantly
+faster. In this particular example, the cold startup time of the GraalVM
+native-image function (770ms) is over twice as fast as the cold startup time
+(1998ms) of the same Java function that uses a regular JVM (HotSpot in this
+case).
 
 ### Conclusions
 
@@ -204,8 +211,8 @@ with functions written in languages that are compiled natively such as Go! In
 Fn, GraalVM offers all the benefits of Java functions, including support of the
 Java FDK, with the performance of native code!
 
-The same function you built in this tutorial could also be seamlessly deployed to the
-[Oracle
+The same function you built in this tutorial could also be seamlessly deployed
+to the [Oracle
 Functions](https://docs.cloud.oracle.com/iaas/Content/Functions/Concepts/functionsoverview.htm)
 cloud platform. The smaller size of the docker image built using GraalVM would
 provider further performance benefits on Oracle Functions, since the container
